@@ -248,7 +248,8 @@ const engineerInfo = async () => {
   const engineerAnswers = await inquirer.prompt(engineerQuestions)
 
     engineers.push(new Engineer(engineerAnswers.name,engineerAnswers.id,engineerAnswers.email,engineerAnswers.github))
-  
+
+    console.log(engineers)
     if (engineerAnswers.confirmAddEngineer) {
       await engineerInfo()
     } else {
@@ -315,7 +316,8 @@ async function init() {
    userInfo.push(manager)
 
    const engineers = await engineerInfo()
-   userInfo.push(...engineers)
+   console.log(engineers)
+   userInfo.push(engineers)
   //  userInfo.push(employeeInfo())
   //  userInfo.push(internInfo())
 
