@@ -3,6 +3,10 @@ const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 
+
+const generateHtml = require('./utils/generateHtml');
+const { writeFile, copyFile } = require('./utils/generate-site');
+
 //const generateHtml = require('./src/generateHtml'); 
 
 const inquirer = require('inquirer');
@@ -232,27 +236,29 @@ const managerQuestions = [
     }
   ];
 
-
-
 const managerInfo = async () => {
   const managerAnswers = await inquirer.prompt(managerQuestions)
   
     const manager = new Manager(managerAnswers.name,managerAnswers.id,managerAnswers.email,managerAnswers.officeNumber)
-    console.log(manager)
+    
     return manager;
   
 }
 
 const engineers = [];
+const countEngineers = 0;
 const engineerInfo = async () => {
+  
   const engineerAnswers = await inquirer.prompt(engineerQuestions)
 
     engineers.push(new Engineer(engineerAnswers.name,engineerAnswers.id,engineerAnswers.email,engineerAnswers.github))
 
-    console.log(engineers)
+    
     if (engineerAnswers.confirmAddEngineer) {
-      await engineerInfo()
+      countEngineers += 1;
+      return engineerInfo();
     } else {
+      
       return engineers;
     }
   
@@ -265,8 +271,8 @@ const employeeInfo = async () => {
 
     employees.push(new Employee(employeeAnswers.name,employeeAnswers.id,employeeAnswers.email))
   
-    if (employeeAnswers.confirmAddemployee) {
-      await employeeInfo()
+    if (employeeAnswers.confirmAddEmployee) {
+      return employeeInfo();
     } else {
       return employees;
     }
@@ -280,55 +286,70 @@ const internInfo = async () => {
 
     interns.push(new Intern(internAnswers.name,internAnswers.id,internAnswers.email,internAnswers.school))
   
-    if (internAnswers.confirmAddintern) {
-      await internInfo()
+    if (internAnswers.confirmAddIntern) {
+      return internInfo()
     } else {
       return interns;
     }
   
 }
 
+const userInfo = new Object();
+  userInfo.manager = {
+    name: 'cnbmvxc',
+    id: 'hfjdksa',
+    email: 'fdhsjfd',
+    officeNumber: 'ashjsak'
+  }
+  userInfo.engineer = {
+    name: 'fhsjkaf',
+    id: 'xhzmv',
+    email: 'ajbdsa',
+    github: 'fhsjkfda'
+  }
+  userInfo.Engineer = {
+    name: 'bcnxzm',
+    id: 'cajkas',
+    email: 'dashjka',
+    github: 'fdhjk'
+  }
+  userInfo.Employee = { name: 'cxbznmc', id: 'ahejkfda', email: 'jfska' }
+  userInfo.Employee = { name: 'ajksl', id: 'fajfka', email: 'ahdj' }
+  userInfo.Intern = {
+    name: 'zxcnmxz',
+    id: 'zcnmxz',
+    email: 'mmmmmm',
+    school: 'mkmkmkmk'
+  },
+  userInfo.Intern = {
+    name: 'sjka',
+    id: 'afhjksa',
+    email: 'ahjska',
+    school: 'ioioioioioioo'
+  }
 
-
-  function writeToFile(data) {
-    console.log("Writing file...")
-
-    let filePath = './teamprofile.html'
-
-    return new Promise((resolve, reject) => {
-        fs.writeFile(filePath, data, err => {
-        if (err) {
-          reject(err);
-          return;
-        }
-            resolve({
-              ok: true,
-              message: 'File created!'
-            });
-        });        
-    });
-    
-}
 
 async function init() {
-  let userInfo = []
-  const manager = await managerInfo()
-   userInfo.push(manager)
+  // let userInfo = []
+  // const manager = await managerInfo()
+  // userInfo.push(manager)
 
-   const engineers = await engineerInfo()
-   console.log(engineers)
-   userInfo.push(engineers)
-  //  userInfo.push(employeeInfo())
-  //  userInfo.push(internInfo())
+  // const engineersInfo = await engineerInfo()
+  // userInfo = [...userInfo, ...engineersInfo];
 
-  //[Manager, [Engineers], [Interns]]
-  // [Manager, Engineers, Engineers]
-    console.log(userInfo)
-    
-    //let data = generateHtml(userInfo);
-    //console.log(data)
+  // const employeesInfo = await employeeInfo()
+  // userInfo = [...userInfo, ...employeesInfo];
+
+  // const internsInfo = await internInfo()
+  // userInfo = [...userInfo, ...internsInfo];
+
+  console.log("userInfo",userInfo)
+    //, countEngineers, countEmployees, countInterns
+  let data = generateHtml(userInfo);
+  //console.log(data)
         
-    //writeToFile(data);
+  copyFile();
+  writeFile(data);
 };
 
 // Function call to initialize app
