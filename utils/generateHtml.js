@@ -1,14 +1,101 @@
-const generateManagerTile =  (object) => {
+const generateManagerTile =  (manager) => {
     return `
-    <div>
+    <div class="card">
+      <div class="card-header">
+        ${manager.name}
+        <br>
+        Manager
+      </div>
+      <div class="card-body">
+        Id: ${manager.id}
+        <br>Email: <a href=https://${manager.email}>${manager.email}</a>
+        <br>Office Number: ${manager.officeNumber}
+      </div>
+    </div>
     `
 }
 
+const generateEngineerTile =  (Engineer) => {
+  return `
+  <div class="card">
+      <div class="card-header">
+        ${Engineer.name}
+        <br>
+        Engineer
+      </div>
+      <div class="card-body">
+        Id: ${Engineer.id}
+        <br>Email: <a href=https://${Engineer.email}>${Engineer.email}</a>
+        <br>Github: <a href=https://github.com/${Engineer.github}>${Engineer.github}</a>
+      </div>
+  </div>
+  `
+}
 
-const generateHtml = (data) => {
+const generateEmployeeTile =  (Employee) => {
+  return `
+  <div class="card">
+      <div class="card-header">
+        ${Employee.name}
+        <br>
+        Employee
+      </div>
+      <div class="card-body">
+        Id: ${Employee.id}
+        <br>Email: <a href=https://${Employee.email}>${Employee.email}</a>
+        <br>Github: <a href=https://github.com/${Employee.github}>${Employee.github}</a>
+      </div>
+  </div>
+  `
+}
+
+const generateInternTile =  (Intern) => {
+  return `
+  <div class="card">
+      <div class="card-header">
+        ${Intern.name}
+        <br>
+        Intern
+      </div>
+      <div class="card-body">
+        Id: ${Intern.id}
+        <br>Email: <a href=https://${Intern.email}>${Intern.email}</a>
+        <br>School: ${Intern.school}
+      </div>
+    </div>
+  `
+}
+
+
+const generateHtml = (data, countEngineers, countEmployees, countInterns) => {
     // destructure page data by section
+    // countEngineers = 2
+    // countEmployees = 2
+    // countInterns = 2
+
+    console.log(countEngineers, countEmployees, countInterns)
     console.log("data", data)
-    const { manager, engineer, employee, intern } = data;
+    
+    console.log(data[1])
+    console.log(data[2])
+    console.log(data[3])
+    console.log(data[4])
+
+    let engineerHtml = ``;
+    for (let i = 0;i < countEngineers;i++) {
+      engineerHtml += generateEngineerTile(data[i + 1])
+    }
+
+    let employeeHtml = ``;
+    for (let i = 0;i < countEmployees;i++) {
+      employeeHtml += generateEmployeeTile(data[i + 1 + countEngineers])
+    }
+
+    let internHtml = ``;
+    for (let i = 0;i < countInterns;i++) {
+      internHtml += generateInternTile(data[i + 1 + countEngineers + countEmployees])
+    }
+    
   
     return `
     <!DOCTYPE html>
@@ -32,10 +119,12 @@ const generateHtml = (data) => {
         </div>
       </header>
       <main class="container my-5">
-        ${generateManagerTile(manager)}
-        ${engineer.name}
-        ${employee}
-        ${intern}
+        ${generateManagerTile(data[0])}
+        ${engineerHtml}
+        ${employeeHtml}
+        ${internHtml}
+
+        
 
       </main>
       <footer class="container text-center py-3">

@@ -246,7 +246,7 @@ const managerInfo = async () => {
 }
 
 const engineers = [];
-const countEngineers = 0;
+let countEngineers = 0;
 const engineerInfo = async () => {
   
   const engineerAnswers = await inquirer.prompt(engineerQuestions)
@@ -258,7 +258,7 @@ const engineerInfo = async () => {
       countEngineers += 1;
       return engineerInfo();
     } else {
-      
+      countEngineers += 1;
       return engineers;
     }
   
@@ -266,14 +266,17 @@ const engineerInfo = async () => {
 
 
 const employees = [];
+let countEmployees = 0;
 const employeeInfo = async () => {
   const employeeAnswers = await inquirer.prompt(employeeQuestions)
 
     employees.push(new Employee(employeeAnswers.name,employeeAnswers.id,employeeAnswers.email))
   
     if (employeeAnswers.confirmAddEmployee) {
+      countEmployees += 1;
       return employeeInfo();
     } else {
+      countEmployees += 1;
       return employees;
     }
   
@@ -281,71 +284,73 @@ const employeeInfo = async () => {
 
 
 const interns = [];
+let countInterns = 0;
 const internInfo = async () => {
   const internAnswers = await inquirer.prompt(internQuestions)
 
     interns.push(new Intern(internAnswers.name,internAnswers.id,internAnswers.email,internAnswers.school))
   
     if (internAnswers.confirmAddIntern) {
+      countInterns += 1;
       return internInfo()
     } else {
+      countInterns += 1;
       return interns;
     }
   
 }
 
-const userInfo = new Object();
-  userInfo.manager = {
-    name: 'cnbmvxc',
-    id: 'hfjdksa',
-    email: 'fdhsjfd',
-    officeNumber: 'ashjsak'
-  }
-  userInfo.engineer = {
-    name: 'fhsjkaf',
-    id: 'xhzmv',
-    email: 'ajbdsa',
-    github: 'fhsjkfda'
-  }
-  userInfo.Engineer = {
-    name: 'bcnxzm',
-    id: 'cajkas',
-    email: 'dashjka',
-    github: 'fdhjk'
-  }
-  userInfo.Employee = { name: 'cxbznmc', id: 'ahejkfda', email: 'jfska' }
-  userInfo.Employee = { name: 'ajksl', id: 'fajfka', email: 'ahdj' }
-  userInfo.Intern = {
-    name: 'zxcnmxz',
-    id: 'zcnmxz',
-    email: 'mmmmmm',
-    school: 'mkmkmkmk'
-  },
-  userInfo.Intern = {
-    name: 'sjka',
-    id: 'afhjksa',
-    email: 'ahjska',
-    school: 'ioioioioioioo'
-  }
-
+// const userInfo = []
+//   userInfo.push(new Manager(
+//     name = 'Matt',
+//     id = '1',
+//     email = 'matt@gmail.com',
+//     officeNumber = '1'
+//   )),
+//   userInfo.push( new Engineer(
+//     name = 'Josh',
+//     id = '2',
+//     email = 'josh@gmail.com',
+//     github = 'josh'
+//   )),
+//   userInfo.push( new Engineer(
+//     name = 'Joshy',
+//     id = '3',
+//     email = 'joshy@gmail.com',
+//     github = 'joshy'
+//   )),
+//   userInfo.push( new Employee( name = 'Mike', id = '4', email = 'mike@gmail.com' )),
+//   userInfo.push( new Employee( name = 'Eric', id = '5', email = 'eric@gmail.com' )),
+//   userInfo.push( new Intern(
+//     name = 'Dave',
+//     id = '6',
+//     email = 'dave@gmail.com',
+//     school = 'U of u'
+//   )),
+//   userInfo.push( new Intern(
+//     name = 'Tom',
+//     id = '7',
+//     email = 'tom@gmail.com',
+//     school = 'Utah State'
+//   ))
 
 async function init() {
-  // let userInfo = []
-  // const manager = await managerInfo()
-  // userInfo.push(manager)
+  let userInfo = []
+  const manager = await managerInfo()
+  userInfo.push(manager);
 
-  // const engineersInfo = await engineerInfo()
-  // userInfo = [...userInfo, ...engineersInfo];
+  const engineersInfo = await engineerInfo()
+  userInfo = [...userInfo, ...engineersInfo];
 
-  // const employeesInfo = await employeeInfo()
-  // userInfo = [...userInfo, ...employeesInfo];
+  const employeesInfo = await employeeInfo()
+  userInfo = [...userInfo, ...employeesInfo];
 
-  // const internsInfo = await internInfo()
-  // userInfo = [...userInfo, ...internsInfo];
+  const internsInfo = await internInfo()
+  userInfo = [...userInfo, ...internsInfo];
 
-  console.log("userInfo",userInfo)
+  // console.log("userInfo",userInfo)
     //, countEngineers, countEmployees, countInterns
-  let data = generateHtml(userInfo);
+  let data = generateHtml(userInfo, countEngineers, countEmployees, countInterns);
   //console.log(data)
         
   copyFile();
