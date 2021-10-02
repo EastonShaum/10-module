@@ -23,6 +23,8 @@
 
   Run node index in the command line and fill out the prompts and an html fil will be created in the dist folder for you to copy and use.
 
+  Walk through video: https://youtu.be/jXHbZIqK3hE
+
   ## Tests
 
   You can test this project after you have installed it by running the following in the command line: npm test

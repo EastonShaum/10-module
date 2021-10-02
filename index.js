@@ -168,6 +168,19 @@ const managerQuestions = [
       }
     },
     {
+      type: 'input',
+      name: 'github',
+      message: 'What is the employees github account? (Required)',
+      validate: nameInput => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log('You need to enter the employees github account!');
+          return false;
+        }
+      }
+    },
+    {
       type: 'confirm',
       name: 'confirmAddEmployee',
       message: 'Would you like to enter another employee?',
@@ -270,7 +283,7 @@ let countEmployees = 0;
 const employeeInfo = async () => {
   const employeeAnswers = await inquirer.prompt(employeeQuestions)
 
-    employees.push(new Employee(employeeAnswers.name,employeeAnswers.id,employeeAnswers.email))
+    employees.push(new Employee(employeeAnswers.name,employeeAnswers.id,employeeAnswers.email,employeeAnswers.github))
   
     if (employeeAnswers.confirmAddEmployee) {
       countEmployees += 1;
@@ -348,7 +361,7 @@ async function init() {
   const internsInfo = await internInfo()
   userInfo = [...userInfo, ...internsInfo];
 
-  // console.log("userInfo",userInfo)
+  console.log("userInfo",userInfo)
     //, countEngineers, countEmployees, countInterns
   let data = generateHtml(userInfo, countEngineers, countEmployees, countInterns);
   //console.log(data)
